@@ -18,6 +18,7 @@ package com.tencent.qgame.animplayer
 import android.content.res.AssetFileDescriptor
 import android.content.res.AssetManager
 import android.media.MediaExtractor
+import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.RandomAccessFile
@@ -55,6 +56,21 @@ open class FileContainer {
         } else {
             val file = this.file ?: return
             extractor.setDataSource(file.toString())
+        }
+    }
+
+
+    fun setDataSource(ijkdecoder: IjkMediaPlayer){
+        if (isAssets) {
+            val assetFd = this.assetFd ?: return
+            if (assetFd.declaredLength < 0) {
+                ijkdecoder.setDataSource(assetFd.fileDescriptor)
+            } else {
+                ijkdecoder.setDataSource(assetFd.fileDescriptor)
+            }
+        } else {
+            val file = this.file ?: return
+            ijkdecoder.dataSource = file.toString()
         }
     }
 
